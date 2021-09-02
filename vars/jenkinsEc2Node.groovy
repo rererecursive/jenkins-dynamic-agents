@@ -40,7 +40,7 @@ import jenkins.model.*
 def call(config) {
   switch(config.action) {
     case 'connect':
-      connectEc2Node(config)
+      return connectEc2Node(config)
       break
 
     case 'disconnect':
@@ -67,8 +67,10 @@ def connectEc2Node(config) {
 
   if (config.mode == 'multiple') {
     env.NODE_COUNT  = instanceIps.size()
+    env.NODE_MODE   = 'multiple'
   } else {
     env.NODE_COUNT  = 1
+    env.NODE_MODE   = 'single'
     instanceIps     = instanceIps[0]
   }
 
@@ -96,6 +98,8 @@ def connectEc2Node(config) {
       )
     )
   }
+
+  return env.NODE_MODE == 'multiple' ? getNodeNames() : getNodeNames()[0]
 }
 
 def disconnectEc2Node(config) {

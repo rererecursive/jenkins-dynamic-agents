@@ -1,3 +1,8 @@
+# Overview
+Add, connect and remove Jenkins agents from a Jenkins pipeline.
+
+*Use case:* you may wish to run commands or perform deployments on an EC2 instance. Instead of installing agents on your servers, you can execute your commands directly on the servers via SSH.
+
 # Examples
 
 ## Single agent
@@ -10,6 +15,8 @@ pipeline {
   stages {
     stage('Task') {
       agent {
+        // Create the agent and connect it to an EC2 instance.
+        // A `label` can be a function that returns a string.
         label jenkinsEc2Node(
           action:   'connect',
           nodeName: 'example',
@@ -29,6 +36,7 @@ pipeline {
 
   post {
     always {
+      // Delete the agents created during this pipeline.
       jenkinsEc2Node(action: 'disconnect')
     }
   }
@@ -36,7 +44,7 @@ pipeline {
 ```
 
 ## Multiple agents
-This particular example involves adding agents in dynamically generated pipeline stages.
+This example involves adding agents in dynamically generated pipeline stages.
 
 ```groovy
 @Library(['myLibrary']) _
@@ -45,7 +53,7 @@ pipeline {
   agent 'any'
 
   stages {
-    /* The agents must be created before they're used. */
+    // The agents must be created before they're used.
     stage('Create Agents') {
       steps {
         jenkinsEc2Node(
@@ -60,7 +68,7 @@ pipeline {
       }
     }
 
-    /* Parallel stages with different agents. */
+    // Parallel stages with different agents.
     stage('Task') {
       steps {
         script {
