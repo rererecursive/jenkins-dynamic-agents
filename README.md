@@ -17,7 +17,7 @@ pipeline {
   stages {
     stage('Task') {
       agent {
-        // Add an agent and connect it to a remote EC2 instance.
+        // Add a remote EC2 instance as an agent.
         // A `label` can be a function that returns a string.
         label jenkinsEc2Node(
           action:   'connect',
