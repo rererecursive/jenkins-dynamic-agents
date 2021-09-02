@@ -1,11 +1,13 @@
 # Overview
 Add, connect and remove Jenkins agents from a Jenkins pipeline.
 
-*Use case:* you may wish to run commands or perform deployments on an EC2 instance. Instead of installing agents on your servers, you can execute your commands directly on the servers via SSH.
+*Use case:* you may wish to run commands or perform deployments on a remote server, such as an EC2 instance. Instead of installing agents on your servers, you can execute your commands directly on the servers via SSH.
+
+This is functionally equivalent to the `sshCommand` step from the SSH plugin.
 
 # Examples
 
-## Single agent
+## Adding a single agent
 ```groovy
 @Library(['myLibrary']) _
 
@@ -43,7 +45,7 @@ pipeline {
 }
 ```
 
-## Multiple agents
+## Adding multiple agents
 This example involves adding agents in dynamically generated pipeline stages.
 
 ```groovy
